@@ -1,49 +1,54 @@
-<h1 align="center">⚽ Sistema IoT de Detecção de Gols com Arduino</h1>
+<h1 align="center">⚽ Sistema IoT de Detecção de Gols com Jogadoras</h1>
 <h3 align="center">Projeto desenvolvido pela <strong>Nova Tech Global</strong></h3>
 
 <p align="center">
   <img src="https://img.shields.io/badge/Arduino-IoT-blue?style=for-the-badge&logo=arduino&logoColor=white">
   <img src="https://img.shields.io/badge/Wokwi-Simulation-green?style=for-the-badge&logo=wokwi&logoColor=white">
   <img src="https://img.shields.io/badge/MQTT-Comunicação-purple?style=for-the-badge">
-  <img src="https://img.shields.io/badge/Dashboard-Visualização-orange?style=for-the-badge">
+  <img src="https://img.shields.io/badge/Dashboard-Python-orange?style=for-the-badge&logo=python&logoColor=white">
 </p>
 
 ---
 
-## 📌 Objetivo do Projeto
+##  Objetivo do Projeto
 
-Este projeto tem como objetivo **simular um sistema inteligente de monitoramento de gols** em partidas de futebol,
+O objetivo deste projeto é **simular um sistema inteligente de monitoramento de gols** em partidas de futebol feminino, 
 usando sensores e conectividade IoT.
 
-A ideia é **detectar automaticamente o gol**, registrar a **velocidade do chute** e identificar a **jogadora** responsável — 
-tudo processado via **Arduino**, com simulação no **Wokwi**.
+O sistema **detecta automaticamente quando ocorre um gol**, mede a **velocidade do chute (em km/h)** e identifica a **jogadora responsável**, 
+enviando os dados via **protocolo MQTT** para um **dashboard em Python (Dash + Plotly)**.
 
 ---
 
-## ⚙️ Componentes e Tecnologias
+##  Componentes e Tecnologias Utilizadas
 
-| Componente | Função |
-|-------------|--------|
-| 🟩 **Arduino UNO** | Unidade principal de controle |
-| 🟧 **Sensor Ultrassônico (HC-SR04)** | Mede a velocidade do chute simulada |
-| 🟥 **Sensor Infravermelho (IR)** | Detecta passagem da bola no gol |
-| 🟦 **LEDs** | Indicadores visuais de gol (verde) e erro (vermelho) |
-| 🟪 **MQTT (Simulado)** | Comunicação entre o dispositivo e o dashboard |
-| 🟨 **Dashboard Node-RED (fictício)** | Exibição de dados em tempo real (velocidade, jogadora, replay) |
-
----
-
-## 🧠 Como Funciona
-
-1. A bola (simulada) é detectada pelo sensor IR.  
-2. O sensor ultrassônico mede a velocidade estimada.  
-3. Se o valor estiver dentro do intervalo configurado → ⚽ **Gol confirmado!**  
-4. O LED verde acende e uma mensagem é enviada via MQTT (simulação).  
-5. O LED vermelho acende se houver erro na leitura ou falso positivo.
+| Componente / Tecnologia | Função |
+|--------------------------|--------|
+|  **Arduino UNO** | Controla sensores e LEDs |
+|  **Sensor Ultrassônico (HC-SR04)** | Mede a velocidade estimada da bola |
+|  **Sensor Infravermelho (IR)** | Detecta a passagem da bola no gol |
+|  **LEDs (verde e vermelho)** | Indicadores visuais de gol válido ou inválido |
+|  **MQTT (via broker público)** | Transmissão dos dados dos gols para o dashboard |
+|  **Python (Dash + Plotly)** | Dashboard em tempo real para monitoramento dos gols |
+|  **Wokwi** | Simulação virtual do circuito Arduino |
 
 ---
 
-## 💻 Código Base (Arduino)
+##  Funcionamento do Sistema
+
+1. O **sensor IR** detecta a passagem da bola pela linha do gol.  
+2. O **sensor ultrassônico** mede a velocidade aproximada do chute.  
+3. Caso o valor esteja dentro da faixa configurada → ⚽ **Gol confirmado!**  
+4. O **LED verde** é aceso e o evento é publicado via **MQTT**.  
+5. Se houver erro ou velocidade fora do padrão → 🚫 **Gol anulado**, e o **LED vermelho** é aceso.  
+6. O **dashboard em Python** recebe os dados em tempo real e exibe:
+   - Velocidade do chute no gol  
+   - Jogadora responsável  
+   - Histórico de eventos e média de velocidade  
+
+---
+
+##  Código do Arduino
 
 ```cpp
 #define trigPin 9
@@ -65,7 +70,7 @@ void setup() {
 }
 
 void loop() {
-  // Simulação do chute
+  // Simulação da leitura do sensor ultrassônico
   digitalWrite(trigPin, LOW);
   delayMicroseconds(2);
   digitalWrite(trigPin, HIGH);
@@ -78,11 +83,11 @@ void loop() {
   int gol = digitalRead(sensorGol);
 
   if (gol == HIGH && distancia < 40) {
-    Serial.println("⚽ Gol confirmado!");
+    Serial.println(" Gol confirmado!");
     digitalWrite(ledVerde, HIGH);
     digitalWrite(ledVermelho, LOW);
   } else if (gol == HIGH && distancia >= 40) {
-    Serial.println("❌ Gol anulado - velocidade fora do padrão.");
+    Serial.println(" Gol anulado - velocidade fora do padrão.");
     digitalWrite(ledVerde, LOW);
     digitalWrite(ledVermelho, HIGH);
   } else {
