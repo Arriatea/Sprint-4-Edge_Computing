@@ -48,6 +48,13 @@ enviando os dados via **protocolo MQTT** para um **dashboard em Python (Dash + P
 
 ---
 
+<p align="center">
+  <a href="https://youtu.be/lE0nkbuZJ8A?si=eVurd49faYQqqQc_" target="_blank">
+    <img src="[https://upload.wikimedia.org/wikipedia/commons/b/b8/YouTube_Logo_2017.svg](https://youtu.be/eT5AYNRDoN8)" width="160">
+  </a>
+</p>
+
+
 ##  Código do Arduino
 
 ```cpp
@@ -97,3 +104,9 @@ void loop() {
 
   delay(1000);
 }
+## 👥 Integrantes do Grupo
+
+| [<img loading="lazy" src="./imgs/Vitor.png" width=115><br><sub>Vitor Alcantara</sub>](https://github.com/VitorAlcantara-tech) | [<img loading="lazy" src="./imgs/Thiago.png" width=115><br><sub>Thiago Lima</sub>](https://github.com/thiagolima-tech) | [<img loading="lazy" src="./imgs/Matheus.png" width=115><br><sub>Matheus Vasques</sub>](https://github.com/maatvasques) | [<img loading="lazy" src="./imgs/Marco.png" width=115><br><sub>Marco Aurélio</sub>](https://github.com/Arriatea) | [<img loading="lazy" src="./imgs/Bernardo.png" width=115><br><sub>Bernardo Hanashiro</sub>](https://github.com/BernardoYuji) |
+| :---: | :---: | :---: | :---: | :---: |
+
+
